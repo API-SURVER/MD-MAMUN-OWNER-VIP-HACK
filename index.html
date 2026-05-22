@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>𝐌𝐃_𝐌𝐀𝐌𝐔𝐍_(𝐎𝐰𝐧𝐞𝐫)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=JetBrains+Mono:wght@700&display=swap');
+
+        :root {
+            --neon: #00ff88;
+            --pink: #ff0066;
+            --bg: rgba(6, 6, 8, 0.98);
+        }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Orbitron', sans-serif; }
+        iframe { width: 100%; height: 100%; border: none; position: absolute; z-index: 1; }
+
+        /* Square Box */
+        .square-tool {
+            position: fixed; top: 120px; left: 15px;
+            width: 90px; height: 90px;
+            background: var(--bg);
+            border: 1.5px solid var(--neon);
+            border-radius: 10px;
+            z-index: 9999;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            user-select: none; cursor: move;
+            animation: border-glow 4s infinite alternate;
+        }
+
+        @keyframes border-glow { 
+            0% { border-color: var(--neon); box-shadow: 0 0 10px var(--neon); } 
+            100% { border-color: var(--pink); box-shadow: 0 0 10px var(--pink); } 
+        }
+
+        #login-ui { width: 100%; text-align: center; }
+        .key-in { width: 75%; font-size: 8px; padding: 3px; background: #000; border: 0.5px solid #444; color: var-neon); border-radius: 3px; outline: none; margin-bottom: 4px; }
+        .btn-go { width: 80%; font-size: 8px; background: var(--neon); color: #000; border: none; padding: 3px; border-radius: 3px; font-weight: 900; }
+
+        #main-ui { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: space-around; padding: 2px 0; }
+        
+        .timer { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #ffcc00; }
+        .result { font-size: 16px; font-weight: 900; line-height: 1; margin: 0; }
+        .numbers { font-size: 9px; font-weight: bold; color: #fff; margin-top: -1px; letter-spacing: 1px; }
+        
+        .color-row { display: flex; align-items: center; gap: 4px; border-top: 0.2px solid rgba(255,255,255,0.1); width: 80%; justify-content: center; padding-top: 2px; }
+        .dot { width: 7px; height: 7px; border-radius: 50%; }
+        .next-hint { font-size: 5px; color: #777; font-weight: bold; }
+
+        .hide-txt { font-size: 5px; color: #555; cursor: pointer; margin-top: 1px; }
+
+        #restore { position: fixed; top: 40%; left: 0; background: var(--bg); border: 1px solid var(--neon); color: white; padding: 6px 3px; border-radius: 0 6px 6px 0; display: none; z-index: 10000; font-size: 8px; }
+    </style>
+</head>
+<body>
+
+    <iframe src="https://deshclub2.com/#/register?invitationCode=65464137773"><"https://tkclub2.com/#/home/AllLotteryGames/WinGo?id=1"></iframe>
+
+    <div class="square-tool" id="dragBox">
+        <div id="login-ui">
+            <div style="font-size: 5px; color: #fff; margin-bottom: 5px; opacity: 0.6;">𝐌𝐃_𝐌𝐀𝐌𝐔𝐍_(𝐎𝐰𝐧𝐞𝐫)</div>
+            <input type="password" id="pass" class="key-in" placeholder="KEY">
+            <button class="btn-go" onclick="auth()">LOGIN</button>
+        </div>
+
+        <div id="main-ui">
+            <div class="timer" id="timer">00:30</div>
+            <div class="result" id="res">---</div>
+            <div class="numbers" id="num-hint">0, 0</div>
+            
+            <div class="color-row">
+                <div class="dot" id="dot" style="background:gray"></div>
+                <div class="next-hint" id="next">NEXT: --</div>
+            </div>
+
+            <div class="hide-txt" onclick="toggle(false)">[ HIDE ]</div>
+        </div>
+    </div>
+
+    <div id="restore" onclick="toggle(true)">▶</div>
+
+    <script>
+        const logic = ["SMALL","BIG","BIG","SMALL","SMALL","SMALL","BIG","SMALL","SMALL","BIG","SMALL","BIG","BIG","SMALL","SMALL","SMALL","SMALL","BIG","BIG","SMALL","BIG","BIG","SMALL","BIG","SMALL","SMALL","BIG","SMALL","BIG","BIG","BIG","SMALL","BIG","SMALL","SMALL","BIG"];
+
+        function auth() {
+            if(document.getElementById('pass').value === "MamunBDT10") {
+                document.getElementById('login-ui').style.display = 'none';
+                document.getElementById('main-ui').style.display = 'flex';
+                startEngine();
+            } else { alert("WRONG KEY"); }
+        }
+
+        const box = document.getElementById('dragBox');
+        let move = false, ox, oy;
+        box.addEventListener('touchstart', e => {
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+            move = true; ox = e.touches[0].clientX - box.offsetLeft; oy = e.touches[0].clientY - box.offsetTop;
+        });
+        document.addEventListener('touchmove', e => {
+            if(move) { box.style.left = (e.touches[0].clientX - ox) + 'px'; box.style.top = (e.touches[0].clientY - oy) + 'px'; e.preventDefault(); }
+        }, {passive: false});
+        document.addEventListener('touchend', () => move = false);
+
+        function toggle(s) {
+            box.style.display = s ? 'flex' : 'none';
+            document.getElementById('restore').style.display = s ? 'none' : 'block';
+        }
+
+        // নাম্বার জেনারেশন লজিক (দুইটি করে নাম্বার)
+        function getPair(type, seed) {
+            const bigs = [5, 6, 7, 8, 9];
+            const smalls = [0, 1, 2, 3, 4];
+            const set = (type === "BIG") ? bigs : smalls;
+            
+            // সাইকেলের ওপর ভিত্তি করে নাম্বার নির্বাচন
+            let n1 = set[seed % 5];
+            let n2 = set[(seed * 3) % 5];
+            if(n1 === n2) n2 = set[(seed + 1) % 5];
+            
+            return `${n1}, ${n2}`;
+        }
+
+        function startEngine() {
+            const timeEl = document.getElementById('timer');
+            const resEl = document.getElementById('res');
+            const numEl = document.getElementById('num-hint');
+            const dotEl = document.getElementById('dot');
+            const nextEl = document.getElementById('next');
+
+            function tick() {
+                const now = new Date();
+                const left = 30 - (now.getSeconds() % 30);
+                timeEl.innerText = `00:${left < 10 ? '0'+left : left}`;
+
+                const cycle = Math.floor(Date.now() / 30000);
+                const idx = cycle % logic.length;
+                const current = logic[idx];
+                const next = logic[(idx + 1) % logic.length];
+
+                // রেজাল্ট আপডেট
+                if(resEl.innerText !== current || numEl.innerText === "0, 0") {
+                    resEl.innerText = current;
+                    resEl.style.color = current === "BIG" ? "#00ff88" : "#ff0066";
+                    
+                    // এখানে নতুন নাম্বার জেনারেট হচ্ছে
+                    numEl.innerText = getPair(current, cycle);
+                    
+                    dotEl.style.background = current === "BIG" ? "purple" : "red";
+                    nextEl.innerText = `NEXT: ${next}`;
+                }
+            }
+            setInterval(tick, 1000);
+            tick();
+        }
+    </script>
+
+<style>.qc-cmp-showing { visibility: hidden !important; } body.didomi-popup-open { overflow: auto !important; } #didomi-host { visibility: hidden !important; }</style></body></html>
